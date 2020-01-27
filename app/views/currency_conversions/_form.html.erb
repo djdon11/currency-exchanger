@@ -1,0 +1,34 @@
+<%= form_with(model: @currency_conversion) do |form| %>
+  <% if @currency_conversion.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(@currency_conversion.errors.count, "error") %>
+        prohibited this currency conversion from being saved:
+      </h2>
+      <ul>
+        <% @currency_conversion.errors.full_messages.each do |message| %>
+          <li>
+            <%= message %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="row pl-3 pr-3 pt-5 pb-5">
+    <div class="field col-lg-3 col-md-6">
+      <%= form.select(:base_currency, ["EUR"], { prompt: "Select Base Currency" }, { :class => 'form-control select2', style: 'width: 100%;' ,required: true}) %>
+    </div>
+    <div class="field col-lg-3 col-md-6">
+      <%= form.number_field :base_amount, placeholder: "Enter Amount", class: "form-control",required: true %>
+    </div>
+    <div class="field col-lg-3 col-md-6">
+      <%= form.select(:target_currency, CurrencyConversion::CURRENCIES, { prompt: "Select Target Currency" }, { :class => 'form-control select2', style: 'width: 100%;', required: true }) %>
+    </div>
+    <div class="field col-lg-3 col-md-6">
+      <%= form.select(:week_count, 1..25, { prompt: "Select no.of weeks" }, { :class => 'form-control select2', style: 'width: 100%;', required: true}) %>
+    </div>
+    <div class="field col-12 text-right">
+      <%= form.submit 'Convert', class: "mt-4 btn btn-primary rounded-0 btn-lg" %>
+    </div>
+  </div>
+<% end %>

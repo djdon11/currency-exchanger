@@ -1,0 +1,57 @@
+<div class="col-md-12">
+  <h1 class="head-title">Details</h1>
+  <div class="row mb-5">
+  </div>
+  <div class="row">
+    <div class="col-lg-4">
+      <div class="card">
+        <%= high_chart("chart", @chart) %>
+      </div>
+    </div>
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-body table-responsive">
+          <table class="table table-hover table-valign-middle table-borderless conversion-table">
+            <thead>
+              <tr>
+                <th>Year/Week-Number</th>
+                <th>Target currency Rate</th>
+                <th>Base amount</th>
+                <th>Target Amount</th>
+                <th>Profit/Loss</th>
+              </tr>
+            </thead>
+            <tbody id="conversionTable">
+              <% @data.each do |key, value| %>
+                <tr>
+                  <td>
+                    <%= key.to_date.strftime("%Y--Week--%U") %>
+                  </td>
+                  <td class="<%= min_max_class(value, @data) %>">
+                    <%= number_to_currency(value, :unit => '') %>
+                  </td>
+                  <td>
+                    <%= number_to_currency(@currency_conversion.base_amount, :unit => '') %>
+                  </td>
+                  <td>
+                    <%= number_to_currency(@currency_conversion.base_amount*value, :unit => '') %>
+                  </td>
+                  <td>
+                    <%= @current_rate > value ? "Profit" : "Loss" %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pagination-links mt-3 mb-3">
+    <%= link_to 'Back', currency_conversions_path, {:class => 'btn btn-danger pull-left'}  %>
+    <%= link_to 'Edit', edit_currency_conversion_path(@currency_conversion), {:class => 'btn btn-primary pull-right'} %>
+  </div>
+</div>
+
+
+
