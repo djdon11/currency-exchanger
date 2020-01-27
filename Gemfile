@@ -36,7 +36,8 @@ gem 'dotenv-rails', groups: [:development, :test]
 # High chart
 gem 'lazy_high_charts'
 
-
+gem 'dalli'
+gem 'memcachier'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

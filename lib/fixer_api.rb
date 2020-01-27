@@ -37,6 +37,9 @@ class FixerApi
 
   # Prepare API end point
   def end_point
-    URI.parse("#{END_POINT}/#{@target_date}?access_key=#{ENV['SECRET_KEY']}&symbols=#{@currency.target_currency}")
+    url = "#{END_POINT}/#{@target_date}?access_key=#{ENV['SECRET_KEY']}&symbols=#{@currency.target_currency}"
+    Rails.cache.fetch("#{url}", :expires_in => 12.hours, cache_nils: false) do
+      URI.parse("#{url}")
+    end
   end
 end

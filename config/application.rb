@@ -16,5 +16,6 @@ module CurrencyExchanger
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
     config.autoload_paths << "#{Rails.root}/lib"
+    config.cache_store = :dalli_store, nil, { :namespace => "CurrencyExchanger", :expires_in => 1.day, :compress => true }
   end
 end
