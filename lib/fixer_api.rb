@@ -10,14 +10,14 @@ class FixerApi
   attr_reader :currency
   attr_reader :target_date
 
-  def initialize(currency='INR', target_date='latest')
+  def initialize(currency, target_date = 'latest')
     @currency = currency
     @target_date = target_date
   end
 
   # Returns currency rates for/from target_date
   def currency_rates
-    response['rates'][currency]
+    response['rates'][currency.target_currency.to_s]
   end
 
   private
@@ -37,6 +37,6 @@ class FixerApi
 
   # Prepare API end point
   def end_point
-    URI.parse("#{END_POINT}/#{@target_date}?access_key=ENV['SECRET_KEY']&symbols=#{@currency}")
+    URI.parse("#{END_POINT}/#{@target_date}?access_key=#{ENV['SECRET_KEY']}&symbols=#{@currency.target_currency}")
   end
 end
