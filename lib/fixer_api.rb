@@ -4,11 +4,20 @@ class FixerApi
 
   END_POINT = 'http://data.fixer.io/api'
 
+  # Not sure if we need these as attr_reader
+  # but may be later we want them to be access
+  # outside from this class
+  attr_reader :currency
+  attr_reader :target_date
 
+  def initialize(currency='INR', target_date='latest')
+    @currency = currency
+    @target_date = target_date
+  end
 
-  # Returns currency rates
+  # Returns currency rates for/from target_date
   def currency_rates
-    response
+    response['rates'][currency]
   end
 
   private
@@ -28,6 +37,6 @@ class FixerApi
 
   # Prepare API end point
   def end_point
-    URI.parse("#{END_POINT}/latest?access_key=#{ENV['SECRET_KEY']}")
+    URI.parse("#{END_POINT}/#{@target_date}?access_key=ENV['SECRET_KEY']&symbols=#{@currency}")
   end
 end
