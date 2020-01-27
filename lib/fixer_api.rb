@@ -32,14 +32,14 @@ class FixerApi
   # Request to API and prepare resonse
   def payload
     uri = end_point
-    JSON.parse(Net::HTTP.get(uri))
+    Rails.cache.fetch(uri.request_uri, :expires_in => 12.hours) do
+      JSON.parse(Net::HTTP.get(uri))
+    end
   end
 
   # Prepare API end point
   def end_point
     url = "#{END_POINT}/#{@target_date}?access_key=#{ENV['SECRET_KEY']}&symbols=#{@currency.target_currency}"
-    Rails.cache.fetch("#{url}", :expires_in => 12.hours, cache_nils: false) do
-      URI.parse("#{url}")
-    end
+    URI.parse(url)
   end
 end
